@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lamp — Report a Community Issue</title>
+<style>
+  :root{
+    --green:#0B6E4F; --green-dark:#08543C; --amber:#E3A008; --red:#C1272D;
+    --bg:#F6F7F5; --card:#FFFFFF; --text:#1B1B1B; --muted:#6B7280; --border:#E5E7EB;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);}
+  header{background:var(--green-dark);color:#fff;padding:16px 20px;}
+  .headtop{display:flex;justify-content:space-between;align-items:center;max-width:640px;margin:0 auto;}
+  header h1{margin:0;font-size:20px;}
+  header .tag{font-size:12.5px;opacity:.85;margin-top:2px;}
+  .authArea{display:flex;gap:8px;align-items:center;font-size:13px;}
+  .authArea button, .authArea a{
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);color:#fff;
+    padding:7px 12px;border-radius:7px;font-size:12.5px;cursor:pointer;font-weight:600;text-decoration:none;
+  }
+  .authArea button.primary{background:var(--amber);border-color:var(--amber);color:var(--green-dark);}
+  .authArea .who{opacity:.9;}
+
+  main{max-width:640px;margin:0 auto;padding:0 20px 20px;}
+  .hero{max-width:640px;margin:0 auto;padding:34px 20px 26px;text-align:center;}
+  .hero .lamp-icon{font-size:44px;}
+  .hero h1{font-size:26px;margin:10px 0 6px;color:var(--text);}
+  .hero p.lede{font-size:14.5px;color:var(--muted);max-width:460px;margin:0 auto 20px;line-height:1.55;}
+  .howitworks{display:flex;gap:10px;justify-content:center;margin:18px auto 22px;max-width:520px;}
+  .howitworks .step{flex:1;background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 8px;}
+  .howitworks .step .n{
+    width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;margin:0 auto 6px;
+  }
+  .howitworks .step .t{font-size:11.5px;color:var(--text);font-weight:700;}
+  .cta-row{display:flex;gap:10px;max-width:520px;margin:0 auto;}
+  .cta-row button{
+    flex:1;padding:14px 10px;border-radius:10px;border:none;font-size:13.5px;font-weight:800;cursor:pointer;
+  }
+  .cta-row .cta-complaint{background:var(--amber);color:var(--green-dark);}
+  .cta-row .cta-safety{background:var(--red);color:#fff;}
+  .hero-links{margin-top:16px;font-size:12px;color:var(--muted);}
+  .hero-links a{color:var(--green-dark);text-decoration:none;font-weight:600;}
+  .section-divider{border:none;border-top:1px solid var(--border);max-width:640px;margin:8px auto 22px;}
+
+  .tabs{display:flex;gap:8px;margin-bottom:16px;}
+  .tabs button{
+    flex:1;padding:13px;border-radius:10px;border:2px solid var(--border);background:#fff;
+    font-size:14px;font-weight:700;cursor:pointer;color:var(--muted);
+  }
+  .tabs button.active.complaint{border-color:var(--green);color:var(--green);background:#EAF6F0;}
+  .tabs button.active.safety{border-color:var(--red);color:var(--red);background:#FDEEEE;}
+
+  .banner{border-radius:10px;padding:12px 14px;font-size:12.5px;line-height:1.5;margin-bottom:14px;}
+  .banner.complaint{background:#EAF6F0;color:var(--green-dark);border:1px solid #CFE8D9;}
+  .banner.safety{background:#FDEEEE;color:var(--red);border:1px solid #F3B9B9;}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;}
+  label{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;margin-top:14px;}
+  label:first-child{margin-top:0;}
+  textarea,select,input[type=text],input[type=number],input[type=password]{
+    width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;
+  }
+  textarea{min-height:110px;resize:vertical;}
+  .row{display:flex;gap:10px;}
+  .row > div{flex:1;}
+  .toggle{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13px;color:var(--text);}
+  .toggle input{width:18px;height:18px;}
+  .toggle.locked{opacity:.6;}
+  .evidence-btns{display:flex;gap:10px;margin-top:8px;}
+  .evidence-btns button{
+    flex:1;padding:10px;border:1px solid var(--border);border-radius:8px;background:#fff;
+    font-size:13px;cursor:pointer;font-weight:600;color:var(--text);
+  }
+  .evidence-btns button.active{background:var(--green);color:#fff;border-color:var(--green);}
+  #recordStatus, #photoPreview{margin-top:10px;font-size:12.5px;color:var(--muted);}
+  #photoPreview img{max-width:100%;border-radius:8px;margin-top:6px;display:block;}
+  audio{width:100%;margin-top:8px;}
+  .submit-btn{
+    width:100%;padding:14px;margin-top:20px;border:none;border-radius:10px;
+    font-size:15px;font-weight:800;cursor:pointer;
+  }
+  .submit-btn.complaint{background:var(--amber);color:var(--green-dark);}
+  .submit-btn.safety{background:var(--red);color:#fff;}
+  .submit-btn:disabled{opacity:.6;cursor:not-allowed;}
+  .note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5;}
+  .result{background:#F1F8F4;border:1px solid #CFE8D9;border-radius:10px;padding:16px;font-size:13.5px;line-height:1.6;display:none;}
+  .result.show{display:block;}
+  .result h3{margin:0 0 8px 0;font-size:15px;color:var(--green-dark);}
+  .pill{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:#E3F2E9;color:var(--green-dark);}
+  .error-box{background:#FDE7E7;border:1px solid #F3B9B9;color:var(--red);border-radius:8px;padding:12px;font-size:13px;display:none;margin-top:14px;}
+  .error-box.show{display:block;}
+
+  /* modal */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:50;}
+  .overlay.show{display:flex;}
+  .modal{background:#fff;border-radius:12px;padding:22px;width:90%;max-width:360px;}
+  .modal h2{margin:0 0 4px 0;font-size:18px;}
+  .modal .sub{font-size:12.5px;color:var(--muted);margin-bottom:14px;}
+  .modal .switchMode{font-size:12.5px;color:var(--green);cursor:pointer;margin-top:12px;text-align:center;}
+  .modal-err{color:var(--red);font-size:12.5px;margin-top:8px;display:none;}
+  .modal-err.show{display:block;}
+  .modal-close{float:right;background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);}
+  .pw-wrap{position:relative;}
+  .pw-wrap input{padding-right:38px;}
+  .pw-toggle{
+    position:absolute;right:10px;top:50%;transform:translateY(-50%);
+    background:none;border:none;cursor:pointer;font-size:15px;color:var(--muted);padding:2px;
+  }
+  .pw-strength{font-size:11.5px;margin-top:5px;color:var(--muted);}
+  .pw-strength.weak{color:var(--red);}
+  .pw-strength.fair{color:#8a6300;}
+  .pw-strength.strong{color:var(--green);}
+  .pw-hint{font-size:11px;color:var(--muted);margin-top:4px;}
+
+  .myReportsPanel{display:none;}
+  .myReportsPanel.show{display:block;}
+  .miniReport{border-bottom:1px solid var(--border);padding:10px 0;font-size:13px;}
+  .miniReport:last-child{border-bottom:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="headtop">
+    <div>
+      <h1>🔆 Lamp</h1>
+      <div class="tag">See it. Report it. Fix it — together.</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div class="authArea" id="authArea"></div>
+      <a href="dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);color:#fff;padding:7px 12px;border-radius:7px;font-size:12.5px;font-weight:600;text-decoration:none;">📊 View Dashboard</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="lamp-icon">🔆</div>
+  <h1>Report it once. Let AI make sure it isn't forgotten.</h1>
+  <p class="lede">
+    Lamp turns scattered community complaints — a dry borehole, a broken
+    transformer, an unsafe road — into verified, prioritized reports that
+    NGOs, journalists, and local officials can actually act on. Every
+    report is reviewed by a human before it's ever treated as fact.
+  </p>
+
+  <div class="howitworks">
+    <div class="step"><div class="n">1</div><div class="t">You report</div></div>
+    <div class="step"><div class="n">2</div><div class="t">AI classifies &amp; scores</div></div>
+    <div class="step"><div class="n">3</div><div class="t">A human verifies</div></div>
+    <div class="step"><div class="n">4</div><div class="t">Status flows back to you</div></div>
+  </div>
+
+  <div class="cta-row">
+    <button class="cta-complaint" onclick="scrollToForm('complaint')">📋 File a Complaint</button>
+    <button class="cta-safety" onclick="scrollToForm('safety')">🛡️ Report a Safety Concern</button>
+  </div>
+
+  <div class="hero-links">Free, always anonymous by default. No account needed — <a href="#" onclick="openAuthModal('register');return false;">sign up</a> only if you want to track your reports.</div>
+</div>
+<hr class="section-divider">
+
+<main>
+  <div class="tabs" id="reportSection">
+    <button type="button" id="tabComplaint" class="active complaint">📋 File a Complaint</button>
+    <button type="button" id="tabSafety" class="safety">🛡️ Report a Safety Concern</button>
+  </div>
+
+  <div class="banner complaint" id="bannerComplaint">
+    For public service failures — water, power, roads, health facilities, schools, or suspected misuse of a public project. You can choose to submit anonymously or stay identified so you can track your report.
+  </div>
+  <div class="banner safety" id="bannerSafety" style="display:none;">
+    For threats, violence, abuse, or safety concerns. These reports are <b>always anonymous</b> — your identity is never attached, even if you're logged in — and location is generalized to protect you.
+  </div>
+
+  <div class="myReportsPanel card" id="myReportsPanel">
+    <button class="modal-close" onclick="toggleMyReports(false)">✕</button>
+    <h3 style="margin-top:0;">My submitted reports</h3>
+    <div id="myReportsList" style="font-size:13px;color:var(--muted);">Loading...</div>
+  </div>
+
+  <div class="card">
+    <label for="description">What's happening? *</label>
+    <textarea id="description" placeholder="Describe the situation..."></textarea>
+
+    <label>Add evidence (optional)</label>
+    <div class="evidence-btns">
+      <button type="button" id="btnText" class="active">Text only</button>
+      <button type="button" id="btnVoice">🎙️ Record voice</button>
+      <button type="button" id="btnPhoto">📷 Add photo</button>
+    </div>
+
+    <div id="voicePanel" style="display:none;">
+      <div id="recordStatus">Tap start, then describe what's happening out loud.</div>
+      <div class="evidence-btns" style="margin-top:8px;">
+        <button type="button" id="btnStartRec">● Start recording</button>
+        <button type="button" id="btnStopRec" disabled>■ Stop</button>
+      </div>
+      <audio id="audioPlayback" controls style="display:none;"></audio>
+    </div>
+
+    <div id="photoPanel" style="display:none;">
+      <input type="file" id="photoInput" accept="image/*" capture="environment">
+      <div id="photoPreview"></div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="state">State *</label>
+        <select id="state">
+          <option value="">Select state</option>
+          <option>Lagos</option><option>Kano</option><option>Rivers</option>
+          <option>Enugu</option><option>Kaduna</option><option>Oyo</option>
+          <option>Plateau</option><option>Borno</option><option>Anambra</option>
+          <option>Cross River</option><option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label for="lga">LGA *</label>
+        <input type="text" id="lga" placeholder="e.g. Ikeja">
+      </div>
+    </div>
+
+    <label for="community">Community (optional)</label>
+    <input type="text" id="community" placeholder="e.g. Oke-Afa">
+
+    <label for="affected">Roughly how many people are affected?</label>
+    <input type="number" id="affected" placeholder="e.g. 200" min="1">
+
+    <div class="toggle" id="anonToggleWrap">
+      <input type="checkbox" id="anonymous" checked>
+      <label for="anonymous" style="margin:0;">Submit anonymously (recommended)</label>
+    </div>
+
+    <button class="submit-btn complaint" id="submitBtn">Submit complaint</button>
+    <div class="note">
+      By submitting, your report goes into a human verification queue before it appears on any public dashboard. If this is an active emergency, please also contact local emergency services directly — this platform does not dispatch help in real time.
+    </div>
+    <div class="error-box" id="errorBox"></div>
+  </div>
+
+  <div class="result" id="resultBox">
+    <h3>✅ Report received</h3>
+    <div id="resultBody"></div>
+  </div>
+</main>
+
+<!-- ---------- login / register modal ---------- -->
+<div class="overlay" id="authOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <h2 id="authTitle">Log in</h2>
+    <div class="sub" id="authSub">Track your complaints and see their status over time.</div>
+
+    <label for="authUsername">Username</label>
+    <input type="text" id="authUsername" placeholder="Choose a username">
+
+    <label for="authPassword">Password</label>
+    <div class="pw-wrap">
+      <input type="password" id="authPassword" placeholder="At least 8 characters">
+      <button type="button" class="pw-toggle" data-target="authPassword">👁</button>
+    </div>
+    <div class="pw-strength" id="pwStrength"></div>
+    <div class="pw-hint" id="pwHint">Use at least 8 characters, including a letter and a number.</div>
+
+    <div id="confirmPasswordWrap" style="display:none;">
+      <label for="authPasswordConfirm">Confirm password</label>
+      <div class="pw-wrap">
+        <input type="password" id="authPasswordConfirm" placeholder="Re-enter your password">
+        <button type="button" class="pw-toggle" data-target="authPasswordConfirm">👁</button>
+      </div>
+    </div>
+
+    <button class="submit-btn complaint" id="authSubmitBtn" style="margin-top:16px;">Log in</button>
+    <div class="modal-err" id="authErr"></div>
+    <div class="switchMode" id="authSwitch">Don't have an account? Sign up</div>
+  </div>
+</div>
+
+<script>
+const API_BASE = "http://127.0.0.1:8000"; // change this if your backend runs elsewhere
+
+// ---------- session state (stored locally on this device only) ----------
+let session = JSON.parse(localStorage.getItem('lamp_session') || 'null'); // {user_id, username, token}
+
+function saveSession(s){ session = s; localStorage.setItem('lamp_session', JSON.stringify(s)); renderAuthArea(); }
+function clearSession(){ session = null; localStorage.removeItem('lamp_session'); renderAuthArea(); }
+
+function renderAuthArea(){
+  const el = document.getElementById('authArea');
+  if(session){
+    el.innerHTML = `
+      <span class="who">Hi, ${session.username}</span>
+      <button onclick="toggleMyReports()">My Reports</button>
+      <button onclick="clearSession()">Log out</button>
+    `;
+  } else {
+    el.innerHTML = `
+      <button onclick="openAuthModal('login')">Log in</button>
+      <button class="primary" onclick="openAuthModal('register')">Sign up</button>
+    `;
+  }
+}
+renderAuthArea();
+
+// ---------- password show/hide ----------
+document.querySelectorAll('.pw-toggle').forEach(btn=>{
+  btn.onclick = ()=>{
+    const input = document.getElementById(btn.dataset.target);
+    const showing = input.type === 'text';
+    input.type = showing ? 'password' : 'text';
+    btn.textContent = showing ? '👁' : '🙈';
+  };
+});
+
+// ---------- password strength ----------
+function passwordStrength(pw){
+  if(pw.length === 0) return {label:'', cls:''};
+  let score = 0;
+  if(pw.length >= 8) score++;
+  if(pw.length >= 12) score++;
+  if(/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
+  if(/[0-9]/.test(pw)) score++;
+  if(/[^A-Za-z0-9]/.test(pw)) score++;
+  if(pw.length < 8) return {label:'Too short — needs at least 8 characters', cls:'weak'};
+  if(score <= 2) return {label:'Weak password', cls:'weak'};
+  if(score <= 3) return {label:'Fair password', cls:'fair'};
+  return {label:'Strong password', cls:'strong'};
+}
+const pwStrengthEl = document.getElementById('pwStrength');
+document.getElementById('authPassword').addEventListener('input', (e)=>{
+  const s = passwordStrength(e.target.value);
+  pwStrengthEl.textContent = s.label;
+  pwStrengthEl.className = 'pw-strength ' + s.cls;
+});
+
+// ---------- auth modal ----------
+let authMode = 'login';
+function openAuthModal(mode){
+  authMode = mode;
+  document.getElementById('authErr').classList.remove('show');
+  document.getElementById('authUsername').value = '';
+  document.getElementById('authPassword').value = '';
+  document.getElementById('authPasswordConfirm').value = '';
+  pwStrengthEl.textContent = ''; pwStrengthEl.className = 'pw-strength';
+  const confirmWrap = document.getElementById('confirmPasswordWrap');
+  const hint = document.getElementById('pwHint');
+  if(mode==='login'){
+    document.getElementById('authTitle').textContent = 'Log in';
+    document.getElementById('authSub').textContent = 'Track your complaints and see their status over time.';
+    document.getElementById('authSubmitBtn').textContent = 'Log in';
+    document.getElementById('authSwitch').textContent = "Don't have an account? Sign up";
+    confirmWrap.style.display = 'none';
+    hint.style.display = 'none';
+  } else {
+    document.getElementById('authTitle').textContent = 'Create an account';
+    document.getElementById('authSub').textContent = 'Optional — you can still report anonymously without an account.';
+    document.getElementById('authSubmitBtn').textContent = 'Sign up';
+    document.getElementById('authSwitch').textContent = 'Already have an account? Log in';
+    confirmWrap.style.display = 'block';
+    hint.style.display = 'block';
+  }
+  document.getElementById('authOverlay').classList.add('show');
+}
+function closeAuthModal(){ document.getElementById('authOverlay').classList.remove('show'); }
+document.getElementById('authSwitch').onclick = ()=> openAuthModal(authMode==='login' ? 'register' : 'login');
+
+document.getElementById('authSubmitBtn').onclick = async ()=>{
+  const username = document.getElementById('authUsername').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const confirmPassword = document.getElementById('authPasswordConfirm').value;
+  const errEl = document.getElementById('authErr');
+  errEl.classList.remove('show');
+
+  if(!username || !password){
+    errEl.textContent = 'Please fill in both fields.'; errEl.classList.add('show'); return;
+  }
+  if(authMode === 'register'){
+    if(password.length < 8){
+      errEl.textContent = 'Password must be at least 8 characters.'; errEl.classList.add('show'); return;
+    }
+    if(password !== confirmPassword){
+      errEl.textContent = "Passwords don't match — please re-enter."; errEl.classList.add('show'); return;
+    }
+  }
+
+  let res;
+  try{
+    res = await fetch(API_BASE + '/auth/' + authMode, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({username, password})
+    });
+  }catch(networkErr){
+    errEl.textContent = "Can't reach the Lamp server at " + API_BASE + ". Check that 'uvicorn main:app --reload' is running in your terminal, then try again.";
+    errEl.classList.add('show');
+    return;
+  }
+  let data;
+  try{
+    data = await res.json();
+  }catch(parseErr){
+    errEl.textContent = "Server responded with status " + res.status + " but not valid data. Make sure your main.py includes the /auth endpoints (the updated version with login/signup).";
+    errEl.classList.add('show');
+    return;
+  }
+  if(!res.ok){
+    errEl.textContent = data.detail || ('Request failed with status ' + res.status);
+    errEl.classList.add('show');
+    return;
+  }
+  saveSession(data);
+  closeAuthModal();
+};
+
+// ---------- my reports ----------
+async function toggleMyReports(force){
+  const panel = document.getElementById('myReportsPanel');
+  const show = force !== undefined ? force : !panel.classList.contains('show');
+  panel.classList.toggle('show', show);
+  if(!show) return;
+  const listEl = document.getElementById('myReportsList');
+  listEl.textContent = 'Loading...';
+  try{
+    const res = await fetch(API_BASE + '/reports/mine', { headers:{'X-Auth-Token': session.token} });
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.detail || 'Could not load your reports.');
+    if(data.reports.length === 0){ listEl.textContent = "You haven't submitted any reports yet."; return; }
+    listEl.innerHTML = data.reports.map(r => `
+      <div class="miniReport">
+        <b>${r.report_id}</b> — ${r.category}<br>
+        <span style="color:var(--muted);">${r.state}, ${r.lga} · ${r.verification_status} · ${r.response_status}</span>
+      </div>
+    `).join('');
+  }catch(err){
+    listEl.textContent = err.message;
+  }
+}
+
+// ---------- complaint / safety tabs ----------
+let activeKind = 'complaint';
+const tabComplaint = document.getElementById('tabComplaint');
+const tabSafety = document.getElementById('tabSafety');
+const bannerComplaint = document.getElementById('bannerComplaint');
+const bannerSafety = document.getElementById('bannerSafety');
+const submitBtn = document.getElementById('submitBtn');
+const anonymousBox = document.getElementById('anonymous');
+const anonToggleWrap = document.getElementById('anonToggleWrap');
+const descriptionEl = document.getElementById('description');
+
+function setKind(kind){
+  activeKind = kind;
+  tabComplaint.classList.toggle('active', kind==='complaint');
+  tabSafety.classList.toggle('active', kind==='safety');
+  bannerComplaint.style.display = kind==='complaint' ? 'block' : 'none';
+  bannerSafety.style.display = kind==='safety' ? 'block' : 'none';
+  submitBtn.className = 'submit-btn ' + kind;
+  submitBtn.textContent = kind==='complaint' ? 'Submit complaint' : 'Submit safety report';
+  descriptionEl.placeholder = kind==='complaint'
+    ? "e.g. My community has not had water for 3 weeks, the borehole project was announced but never finished."
+    : "e.g. There have been armed men seen near the market road at night, no police patrol has been seen.";
+  if(kind==='safety'){
+    anonymousBox.checked = true; anonymousBox.disabled = true;
+    anonToggleWrap.classList.add('locked');
+  } else {
+    anonymousBox.disabled = false;
+    anonToggleWrap.classList.remove('locked');
+  }
+}
+tabComplaint.onclick = ()=>setKind('complaint');
+tabSafety.onclick = ()=>setKind('safety');
+
+// ---------- evidence type tabs ----------
+let evidenceType = "text_only";
+let mediaRecorder, audioChunks = [];
+const btnText = document.getElementById('btnText');
+const btnVoice = document.getElementById('btnVoice');
+const btnPhoto = document.getElementById('btnPhoto');
+const voicePanel = document.getElementById('voicePanel');
+const photoPanel = document.getElementById('photoPanel');
+
+function setEvidence(type){
+  evidenceType = type;
+  [btnText, btnVoice, btnPhoto].forEach(b=>b.classList.remove('active'));
+  voicePanel.style.display = 'none';
+  photoPanel.style.display = 'none';
+  if(type==='text_only') btnText.classList.add('active');
+  if(type==='voice_note'){ btnVoice.classList.add('active'); voicePanel.style.display='block'; }
+  if(type==='photo'){ btnPhoto.classList.add('active'); photoPanel.style.display='block'; }
+}
+btnText.onclick = ()=>setEvidence('text_only');
+btnVoice.onclick = ()=>setEvidence('voice_note');
+btnPhoto.onclick = ()=>setEvidence('photo');
+
+// ---------- voice recording (browser only, playback for the demo) ----------
+const btnStartRec = document.getElementById('btnStartRec');
+const btnStopRec = document.getElementById('btnStopRec');
+const recordStatus = document.getElementById('recordStatus');
+const audioPlayback = document.getElementById('audioPlayback');
+
+btnStartRec.onclick = async ()=>{
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
+    mediaRecorder.ondataavailable = e=>audioChunks.push(e.data);
+    mediaRecorder.onstop = ()=>{
+      const blob = new Blob(audioChunks, {type:'audio/webm'});
+      audioPlayback.src = URL.createObjectURL(blob);
+      audioPlayback.style.display = 'block';
+      recordStatus.textContent = 'Recording captured. You can play it back below before submitting.';
+    };
+    mediaRecorder.start();
+    btnStartRec.disabled = true; btnStopRec.disabled = false;
+    recordStatus.textContent = 'Recording... tap Stop when done.';
+  }catch(err){
+    recordStatus.textContent = 'Could not access microphone (' + err.message + '). You can still submit as text.';
+  }
+};
+btnStopRec.onclick = ()=>{
+  if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+  btnStartRec.disabled = false; btnStopRec.disabled = true;
+};
+
+// ---------- photo ----------
+const photoInput = document.getElementById('photoInput');
+const photoPreview = document.getElementById('photoPreview');
+photoInput.onchange = ()=>{
+  const file = photoInput.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    photoPreview.innerHTML = '<img src="'+e.target.result+'"><div>Photo attached (kept on your device for this demo).</div>';
+  };
+  reader.readAsDataURL(file);
+};
+
+// ---------- submit ----------
+const resultBox = document.getElementById('resultBox');
+const resultBody = document.getElementById('resultBody');
+const errorBox = document.getElementById('errorBox');
+
+submitBtn.onclick = async ()=>{
+  errorBox.classList.remove('show');
+  const description = descriptionEl.value.trim();
+  const state = document.getElementById('state').value;
+  const lga = document.getElementById('lga').value.trim();
+  const community = document.getElementById('community').value.trim();
+  const affected = parseInt(document.getElementById('affected').value) || 50;
+  const anonymous = anonymousBox.checked;
+
+  if(!description || !state || !lga){
+    errorBox.textContent = 'Please fill in the description, state, and LGA before submitting.';
+    errorBox.classList.add('show');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
+
+  const headers = {'Content-Type':'application/json'};
+  if(session && session.token) headers['X-Auth-Token'] = session.token;
+
+  try{
+    const res = await fetch(API_BASE + '/reports', {
+      method:'POST', headers,
+      body: JSON.stringify({
+        description, state, lga,
+        community: community || undefined,
+        anonymous,
+        num_affected_est: affected,
+        evidence_type: evidenceType,
+        report_kind: activeKind
+      })
+    });
+    if(!res.ok) throw new Error('Server responded with ' + res.status);
+    const data = await res.json();
+
+    resultBody.innerHTML = `
+      <p><b>Report ID:</b> ${data.report.report_id}</p>
+      <p><b>AI category:</b> <span class="pill">${data.report.category}</span> (confidence ${(data.report.ai_confidence*100).toFixed(0)}%)</p>
+      <p><b>Why:</b> ${data.ai_reasoning.classification_explanation}</p>
+      <p><b>Similar reports found:</b> ${data.ai_reasoning.similar_reports_found.length}</p>
+      <p><b>Anonymous:</b> ${data.report.reporter_anonymous ? 'Yes' : 'No'}</p>
+      <p><b>Next step:</b> ${data.next_step}</p>
+    `;
+    resultBox.classList.add('show');
+    resultBox.scrollIntoView({behavior:'smooth'});
+  }catch(err){
+    errorBox.textContent = "Couldn't reach the Lamp server at " + API_BASE + ". Make sure 'uvicorn main:app --reload' is running, then try again. (" + err.message + ")";
+    errorBox.classList.add('show');
+  }finally{
+    submitBtn.disabled = false;
+    submitBtn.textContent = activeKind==='complaint' ? 'Submit complaint' : 'Submit safety report';
+  }
+};
+
+function scrollToForm(kind){
+  setKind(kind);
+  document.getElementById('reportSection').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+setKind('complaint');
+</script>
+</body>
+</html>
