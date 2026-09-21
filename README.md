@@ -1,4 +1,4 @@
-# Lamp 🔆
+# Lamp 
 *"See it. Report it. Fix it — together."*
 
 An AI-powered civic intelligence platform that turns scattered Nigerian citizen
@@ -287,8 +287,8 @@ AI's category, confidence, reasoning, and any similar reports it found.
    unresolved water complaints?"* — gets an answer with cited evidence IDs.
 8. NGO refers the issue to the relevant agency; status changes to
    "Referred."
-9. Community view shows the project status flip from 🔴 Reported Problem to
-   🟡 Needs Verification, then eventually 🟢 Verified once resolved.
+9. Community view shows the project status flip from Reported Problem to
+ Needs Verification, then eventually Verified once resolved.
 10. Close on the accountability tracker showing official vs. citizen-reported
     status side by side — the core trust-building mechanic of the product.
 
