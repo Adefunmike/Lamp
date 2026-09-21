@@ -1,5 +1,5 @@
 # Lamp 
-*"See it. Report it. Fix it — together."*
+*"See it. Report it. Fix it together."*
 
 An AI-powered civic intelligence platform that turns scattered Nigerian citizen
 reports on public-service failures, unfinished projects, and community safety
@@ -16,8 +16,8 @@ journalists, and local institutions can act on.
 
 Across Lagos, Kano, Enugu, Kaduna and everywhere in between, the same pattern
 repeats: a borehole project is announced and never finished; a health centre
-runs out of drugs; a road washes out every rainy season. Residents complain —
-on WhatsApp groups, at town-hall meetings, to local radio — but those
+runs out of drugs; a road washes out every rainy season. Residents complain
+on WhatsApp groups, at town-hall meetings, to local radio but those
 complaints evaporate. No one aggregates them across a community, so:
 
 - The same failure gets reported ten times with nobody connecting the dots.
