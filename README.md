@@ -311,6 +311,11 @@ It's designed for Nigeria's connectivity and language realities from day
 one, and it's built so no AI output is ever treated as fact until a human
 verifies it.
 
+## 16.L imitations & future work
+*Classification* is presently keyword-based; production deployment requires a fine-tuned multilingual model covering Pidgin, Hausa, Yoruba, and Igbo.
+*Evaluation used synthetic data*; field deployment with a pilot community is needed to assess real-world classification accuracy and reporting uptake.
+*USSD/SMS* intake for low-connectivity users is designed but not yet implemented.
+
 ---
 
 *Built as a proof of concept. All figures, reports, and locations in the
