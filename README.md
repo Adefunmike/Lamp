@@ -294,13 +294,7 @@ AI's category, confidence, reasoning, and any similar reports it found.
 
 ## 15. Elevator pitches
 
-**30-second:** Lamp turns scattered complaints about broken boreholes,
-abandoned road projects, and community safety risks into verified,
-prioritized intelligence — so NGOs, journalists, and local government can see
-where problems actually are, and citizens can see whether anyone did
-anything about it.
-
-**1-minute:** Every day, Nigerians report broken infrastructure and service
+Every day, Nigerians report broken infrastructure and service
 failures on WhatsApp groups and at town halls — and those reports vanish.
 Lamp aggregates them: AI classifies and de-duplicates reports, computes a
 transparent risk score, and routes verified issues to NGOs, journalists, and
@@ -311,7 +305,7 @@ It's designed for Nigeria's connectivity and language realities from day
 one, and it's built so no AI output is ever treated as fact until a human
 verifies it.
 
-## 16.L imitations & future work
+## 16. Limitations & future work
 *Classification* is presently keyword-based; production deployment requires a fine-tuned multilingual model covering Pidgin, Hausa, Yoruba, and Igbo.
 *Evaluation used synthetic data*; field deployment with a pilot community is needed to assess real-world classification accuracy and reporting uptake.
 *USSD/SMS* intake for low-connectivity users is designed but not yet implemented.
